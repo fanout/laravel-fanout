@@ -59,7 +59,7 @@ In your config/broadcasting.php file set the default driver to 'fanout' and add 
 ]
 ```
 
-In your config/app.php file add the following to your service providers array:
+In your config/app.php file add the following provider to your service providers array:
 
 ```php
 'providers' => [
