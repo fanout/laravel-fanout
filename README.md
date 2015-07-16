@@ -22,10 +22,11 @@ Using Composer:
 composer require fanout/laravel-fanout
 ```
 
-Manual: ensure that php-pubcontrol has been included and require the following files in laravel-fanout:
+Manual: ensure that php-fanout has been included and require the following files in laravel-fanout:
 
 ```PHP
-require 'laravel-fanout/src/laravelfanout.php';
+require 'laravel-fanout/src/fanoutbroadcaster.php';
+require 'laravel-fanout/src/fanoutbroadcastserviceprovider.php';
 ```
 
 Asynchronous Publishing
@@ -37,20 +38,66 @@ Also note that since a callback passed to the publish_async methods is going to 
 
 See more information about pthreads here: http://php.net/manual/en/book.pthreads.php
 
-Sample usage
+Usage
 ------------
 
-Put your Fanout.io credentials in settings.py:
+In your config/broadcasting.php file set the default driver to 'fanout' and add the connection configuration like so:
 
-```python
-FANOUT_REALM = 'my-realm-id'
-FANOUT_KEY = 'my-realm-key'
+```php
+'default' => 'fanout',
+
+'connections' => [
+    ...
+    'fanout' => [
+        'driver' => 'fanout',
+        'realm_id' => '<my-realm-id>',
+        'realm_key' => '<my-realm-key>',
+        'ssl' => true,
+        'publish_async' => false
+    ],
+    ...
+]
 ```
 
-Then you can publish JSON objects from anywhere in your project:
+In your config/app.php file add the following to your service providers array:
 
-```python
-import django_fanout as fanout
+```php
+'providers' => [
+    ...
+    LaravelFanout\FanoutBroadcastServiceProvider::class,
+    ...
+]
+```
 
-fanout.publish('some-channel', 'hello')
+Add a custom broadcast event to your application like so:
+
+```php
+namespace App\Events;
+
+use App\Events\Event;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+
+class PublishToFanoutEvent implements ShouldBroadcast
+{
+    use SerializesModels;
+
+    public $message;
+
+    public function __construct($message)
+    {
+        $this->message = $message;
+    }
+
+    public function broadcastOn()
+    {
+        return ['<channel>'];
+    }
+}
+```
+
+Now to publish to Fanout.io in your application simply fire the event:
+
+```php
+event(new App\Events\PublishToFanoutEvent('Test publish!!'));
 ```
