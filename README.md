@@ -4,6 +4,11 @@ Author: Konstantin Bokarius <kon@fanout.io>
 
 Fanout.io library for Laravel.
 
+Credit
+------
+
+This project is based on the following pull request by Christopher Thomas: https://github.com/cwt137/laravel-framework/commit/b64b57ec0dfac975db9fadecac9f7a3757b7af30
+
 Requirements
 ------------
 
