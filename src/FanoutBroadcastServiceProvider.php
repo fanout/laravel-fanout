@@ -34,4 +34,3 @@ class FanoutBroadcastServiceProvider extends ServiceProvider
     }
 }
 
-?>
