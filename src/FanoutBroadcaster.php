@@ -34,5 +34,3 @@ class FanoutBroadcaster implements Broadcaster
         }
     }
 }
-
-?>
