@@ -15,7 +15,8 @@ Requirements
 * openssl
 * curl
 * pthreads (required for asynchronous publishing)
-* laravel >= 5.1
+* php >=7.0.0
+* laravel >= 5.5
 * fanout/fanout >=2.0.0 (retrieved automatically via Composer)
 
 Installation
