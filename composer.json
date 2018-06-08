@@ -11,7 +11,7 @@
    ],
    "license":"MIT",
    "require":{
-      "php":">=5.3.0",
+      "php":">=7.0.0",
       "fanout/fanout":"^2.0.0"
    },
    "require-dev":{
